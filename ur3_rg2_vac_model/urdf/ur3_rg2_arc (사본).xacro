@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       name="ur3" >
+
+  <property name="M_PI" value="3.14159265359" />
+  <property name="kinect_prefix1" value=""/>
+  <property name="robot_prefix1" value=""/>
+  
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur3 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur3_joint_limited_robot.urdf.xacro" />
+
+  <!-- arm extras -->
+  <xacro:include filename="$(find ur3_rg2_vac_model)/urdf/ur3_extras.urdf.xacro" />
+
+  <!-- rg2 gripper -->
+  <xacro:include filename="$(find ur3_rg2_vac_model)/urdf/rg2(with_vac).urdf.xacro" />
+  
+  <!-- arm -->
+  <xacro:ur3_robot prefix="${robot_prefix1}" joint_limited="false"/>
+
+  <!-- arm extras -->
+  <xacro:arm_extras prefix="${robot_prefix1}" joint_limited="false" kinect_prefix="${kinect_prefix1}"/> 
+
+  <!-- rg2 pipe -->
+  <xacro:rg2 prefix="${robot_prefix1}"/>
+
+
+  <!-- world will be root link-->
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "ground_base1" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>
